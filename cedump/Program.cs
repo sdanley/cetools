@@ -1,7 +1,10 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.CommandLine;
 using System.Data.SqlServerCe;
+using System.Diagnostics;
 using System.IO;
+using System.Linq;
 
 namespace cedump
 {
@@ -9,22 +12,27 @@ namespace cedump
     {
         static void Main(string[] args)
         {
+            // tables to skip
+            string[] skip = new string[] { "sysdiagrams", "Products" };
+
             var directory = new DirectoryInfo(@"C:\System\Control\Data\");
-            var directoryArg = new Argument<DirectoryInfo>("data folder", getDefaultValue: () => directory);
-            var rootCommand = new RootCommand("dump sqlce files as csv") { directoryArg };
+            var directoryArg = new Argument<DirectoryInfo>("folder containing .sdf files", getDefaultValue: () => directory);
+            var skipOption = new Option<string[]>("--skip", description: "table names to skip", getDefaultValue: () => skip) { 
+                
+                AllowMultipleArgumentsPerToken = true 
+            };
+            var rootCommand = new RootCommand("dump sqlce files as csv") { directoryArg, skipOption };
 
-            rootCommand.SetHandler((dir) =>
-            {
-                directory = dir;
-            }, directoryArg);
-
+            rootCommand.SetHandler((_dir, _skip) => { 
+                directory = _dir; 
+                skip = _skip;
+            }, directoryArg, skipOption);
             rootCommand.InvokeAsync(args).Wait();
 
-            foreach (var filename in new[] { "MachineModelsDB.sdf", "CustomerDB.sdf", "QuilterDB.sdf" })
+            // process all sdf files in directory
+            foreach (var fileinfo in directory.GetFiles("*.sdf"))
             {
-                var path = Path.Combine(@"C:\System\Control\Data\", filename);
-
-                var connection = new SqlCeConnection($"Data Source={path}");
+                var connection = new SqlCeConnection($"Data Source={fileinfo.FullName}");
                 connection.Open();
 
                 // read each table
@@ -35,7 +43,7 @@ namespace cedump
                     var table = reader[2].ToString();
 
                     // don't dump products table
-                    if (table == "Products")
+                    if (skip.Contains(table))
                         continue;
 
                     Console.WriteLine($"#{table}");

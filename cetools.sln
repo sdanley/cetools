@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "cedump", "cedump\cedump.csp
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ceimport", "ceimport\ceimport.csproj", "{9FD1F32F-56B0-4AA9-9357-5D7ED94CBBFC}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "cetool", "cetool\cetool.csproj", "{A724B517-4E20-4531-9AB1-4D3C3ED852E4}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{9FD1F32F-56B0-4AA9-9357-5D7ED94CBBFC}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9FD1F32F-56B0-4AA9-9357-5D7ED94CBBFC}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9FD1F32F-56B0-4AA9-9357-5D7ED94CBBFC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A724B517-4E20-4531-9AB1-4D3C3ED852E4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A724B517-4E20-4531-9AB1-4D3C3ED852E4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A724B517-4E20-4531-9AB1-4D3C3ED852E4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A724B517-4E20-4531-9AB1-4D3C3ED852E4}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
